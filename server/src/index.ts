@@ -1,6 +1,7 @@
 import Koa from "koa";
 import KoaRouter from "@koa/router";
 
+import http from "http";
 import https from "https";
 
 import { readFileSync } from "fs";
@@ -13,7 +14,9 @@ const router = new KoaRouter({
   "prefix": "/timetable-api"
 });
 
-const serverPort = 8001;
+const serverHttpPort = 80;
+const serverHttpsPort = 443;
+
 const serverCert = readFileSync("data/certificate.crt");
 const serverKey = readFileSync("data/certificate.key");
 
@@ -23,7 +26,7 @@ const logRequest = (request: Koa.Request): void => {
   const userIp = request.ip;
   const queryString = decodeURI(request.querystring);
 
-  console.log(`[${time}] ${userIp} has get search with "${queryString}" query`);
+  console.log(`[${time}] ${userIp} has get "${request.url}" with "${queryString}" query`);
 };
 
 router.get("/search", async (context) => {
@@ -69,9 +72,13 @@ router.get("/timetable", async (context) => {
 
 server.use(router.routes()).use(router.allowedMethods());
 
+http.createServer(server.callback()).listen(serverHttpPort);
+
+console.log(`Server was started on http ${serverHttpPort} port`);
+
 https.createServer({
   cert: serverCert,
   key: serverKey
-}, server.callback()).listen(serverPort);
+}, server.callback()).listen(serverHttpsPort);
 
-console.log(`Server was started on https ${serverPort} port`);
+console.log(`Server was started on https ${serverHttpsPort} port`);
