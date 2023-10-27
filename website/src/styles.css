@@ -1,0 +1,42 @@
+:root {
+  --main-color: black;
+  --accent-color: white;
+}
+
+::selection {
+  color: var(--main-color);
+  background-color: var(--accent-color);
+}
+
+* {
+  letter-spacing: 2px;
+
+  text-transform: lowercase;
+  text-decoration: none;
+
+  font-size: 24px;
+  font-weight: 200;
+  font-family: Verdana, monospace;
+}
+
+@media screen and (max-width: 500px) {
+  * {
+    font-size: 12px;
+  }
+}
+
+body {
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  color: var(--accent-color);
+  background-color: var(--main-color);
+
+  height: 100vh;
+}

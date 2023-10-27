@@ -28,6 +28,7 @@ const logRequest = (request: Koa.Request): void => {
 
 router.get("/search", async (context) => {
   context.set("Content-Type", "application/json");
+  context.set("Access-Control-Allow-Origin", "*");
 
   const { request } = context;
 
@@ -47,6 +48,7 @@ router.get("/search", async (context) => {
 
 router.get("/timetable", async (context) => {
   context.set("Content-Type", "application/json");
+  context.set("Access-Control-Allow-Origin", "*");
 
   const { request } = context;
 
