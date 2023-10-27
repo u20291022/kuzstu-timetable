@@ -9,7 +9,9 @@ import { timetable } from "./api/timetable";
 import { TimetableType } from "./types/timetable.types";
 
 const server = new Koa();
-const router = new KoaRouter();
+const router = new KoaRouter({
+  "prefix": "/timetable-api"
+});
 
 const serverPort = 8001;
 const serverCert = readFileSync("data/certificate.crt");
