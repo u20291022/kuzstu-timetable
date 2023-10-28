@@ -12,10 +12,6 @@ import { TimetableType } from "./types/timetable.types";
 const server = new Koa();
 const router = new KoaRouter();
 
-// {
-//   "prefix": "/timetable-api"
-// }
-
 const serverHttpPort = 80;
 const serverHttpsPort = 443;
 
@@ -30,7 +26,7 @@ const logRequest = (request: Koa.Request): void => {
   console.log(`[${time}] ${userIp} has get "${decodeURI(request.url)}"`);
 };
 
-router.get("/search", async (context) => {
+router.get("/timetable-search", async (context) => {
   context.set("Content-Type", "application/json");
   context.set("Access-Control-Allow-Origin", "*");
 
@@ -50,7 +46,7 @@ router.get("/search", async (context) => {
   context.body = JSON.stringify(searchResults);
 });
 
-router.get("/timetable", async (context) => {
+router.get("/timetable-get", async (context) => {
   context.set("Content-Type", "application/json");
   context.set("Access-Control-Allow-Origin", "*");
 
