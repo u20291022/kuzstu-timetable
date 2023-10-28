@@ -1,15 +1,27 @@
-export interface GroupResult {
+import { TimetableType } from "./get.types";
+
+interface Group {
   dept_id: string;
   name: string;
 }
 
-export interface TeacherResult {
+export type Groups = Group[];
+
+interface Teacher {
   person_id: string;
   name: string;
 }
 
-export type SearchResults = (GroupResult | TeacherResult)[];
+export type Teachers = Teacher[];
+
+interface SearchItem {
+  timetableType: TimetableType,
+  timetableId: string,
+  timetableName: string
+}
+
+export type SearchResponse = SearchItem[];
 
 export interface PreviousSearches {
-  [searchData: string]: SearchResults;
+  [searchData: string]: SearchResponse;
 }

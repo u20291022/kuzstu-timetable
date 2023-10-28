@@ -1,80 +1,86 @@
 import Koa from "koa";
-import KoaRouter from "@koa/router";
+import Router from "@koa/router";
 
 import http from "http";
 import https from "https";
 
 import { readFileSync } from "fs";
-import { search } from "./api/search";
-import { timetable } from "./api/timetable";
-import { TimetableType } from "./types/timetable.types";
+
+import { ServerOptions } from "./types/server.types";
+import { logs } from "./utils/logs";
+import { timetableSearch } from "./api/search";
+import { timetableGet } from "./api/get";
+import { TimetableType } from "./types/get.types";
+
+const serverOptions: ServerOptions = {
+  httpPort: 80,
+  httpsPort: 443,
+  ssl: {
+    certificate: readFileSync("data/client-cert.pem"),
+    key: readFileSync("data/client-key.pem")
+  }
+}
 
 const server = new Koa();
-const router = new KoaRouter();
+const router = new Router({
+  prefix: "/timetable",
+  methods: ["get"]
+});
 
-const serverHttpPort = 80;
-const serverHttpsPort = 443;
+const logRequest = (context: Koa.Context) => {
+  const request = context.request;
+  const userIP = request.ip;
+  const url = decodeURI(request.url);
 
-const serverCert = readFileSync("data/client-cert.pem");
-const serverKey = readFileSync("data/client-key.pem");
+  const message = `${userIP} has requested "${url}"!`;
 
-const logRequest = (request: Koa.Request): void => {
-  const date = new Date();
-  const time = date.toLocaleTimeString("ru-RU");
-  const userIp = request.ip;
+  logs.write(message);
+}
 
-  console.log(`[${time}] ${userIp} has get "${decodeURI(request.url)}"`);
-};
-
-router.get("/timetable-search", async (context) => {
+const setHeaders = (context: Koa.Context) => {
   context.set("Content-Type", "application/json");
   context.set("Access-Control-Allow-Origin", "*");
+}
 
-  const { request } = context;
+router.get("/search", async (context) => {
+  logRequest(context);
+  setHeaders(context);
 
-  logRequest(request);
+  const queryData = context.query;
+  const searchData = queryData["data"];
 
-  const dataToSearch = request.query["data"];
-
-  if (!dataToSearch) {
+  if (!searchData) {
     context.body = "{}";
     return;
   }
 
-  const searchResults = await search.getSearchResult(<string>dataToSearch);
+  context.body = await timetableSearch.get(<string>searchData);
+})
 
-  context.body = JSON.stringify(searchResults);
-});
+router.get("/get", async (context) => {
+  logRequest(context);
+  setHeaders(context);
 
-router.get("/timetable-get", async (context) => {
-  context.set("Content-Type", "application/json");
-  context.set("Access-Control-Allow-Origin", "*");
+  const queryData = context.query;
+  const type = queryData["type"];
+  const id = queryData["id"];
 
-  const { request } = context;
-
-  logRequest(request);
-
-  const timetableType = request.query["type"];
-  const timetableId = request.query["id"];
-
-  if (!timetableType || !timetableId) {
+  if (!type || !id) {
     context.body = "{}";
     return;
   }
 
-  const timetableResults = await timetable.getTimetable(<TimetableType>timetableType, <string>timetableId);
-
-  context.body = JSON.stringify(timetableResults);
-});
+  context.body = await timetableGet.get(<TimetableType>type, <string>id);
+})
 
 server.use(router.routes()).use(router.allowedMethods());
 
-http.createServer(server.callback()).listen(serverHttpPort);
-console.log(`Server was started on http ${serverHttpPort} port`);
+http.createServer(server.callback()).listen(serverOptions.httpPort);
+logs.write(`HTTP Server has started on port ${serverOptions.httpPort}!`);
 
 https.createServer({
-  cert: serverCert,
-  key: serverKey
-}, server.callback()).listen(serverHttpsPort);
+  cert: serverOptions.ssl.certificate,
+  key: serverOptions.ssl.key
+}, server.callback()).listen(serverOptions.httpsPort);
 
-console.log(`Server was started on https ${serverHttpsPort} port`);
+logs.write(`HTTPS Server has started on port ${serverOptions.httpsPort}!`);
