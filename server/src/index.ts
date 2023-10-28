@@ -10,23 +10,24 @@ import { timetable } from "./api/timetable";
 import { TimetableType } from "./types/timetable.types";
 
 const server = new Koa();
-const router = new KoaRouter({
-  "prefix": "/timetable-api"
-});
+const router = new KoaRouter();
+
+// {
+//   "prefix": "/timetable-api"
+// }
 
 const serverHttpPort = 80;
 const serverHttpsPort = 443;
 
-const serverCert = readFileSync("data/certificate.crt");
-const serverKey = readFileSync("data/certificate.key");
+const serverCert = readFileSync("data/client-cert.pem");
+const serverKey = readFileSync("data/client-key.pem");
 
 const logRequest = (request: Koa.Request): void => {
   const date = new Date();
   const time = date.toLocaleTimeString("ru-RU");
   const userIp = request.ip;
-  const queryString = decodeURI(request.querystring);
 
-  console.log(`[${time}] ${userIp} has get "${request.url}" with "${queryString}" query`);
+  console.log(`[${time}] ${userIp} has get "${decodeURI(request.url)}"`);
 };
 
 router.get("/search", async (context) => {
@@ -73,7 +74,6 @@ router.get("/timetable", async (context) => {
 server.use(router.routes()).use(router.allowedMethods());
 
 http.createServer(server.callback()).listen(serverHttpPort);
-
 console.log(`Server was started on http ${serverHttpPort} port`);
 
 https.createServer({
