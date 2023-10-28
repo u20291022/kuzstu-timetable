@@ -37,11 +37,14 @@ const logRequest = (context: Koa.Context) => {
   logs.write(message);
 }
 
-router.get("/search", async (context) => {
-  logRequest(context);
-
+const setHeaders = (context: Koa.Context) => {
   context.set("Content-Type", "application/json");
   context.set("Access-Control-Allow-Origin", "*");
+}
+
+router.get("/search", async (context) => {
+  logRequest(context);
+  setHeaders(context);
 
   const queryData = context.query;
   const searchData = queryData["data"];
@@ -56,9 +59,7 @@ router.get("/search", async (context) => {
 
 router.get("/get", async (context) => {
   logRequest(context);
-  
-  context.set("Content-Type", "application/json");
-  context.set("Access-Control-Allow-Origin", "*");
+  setHeaders(context);
 
   const queryData = context.query;
   const type = queryData["type"];
