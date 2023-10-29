@@ -19,7 +19,7 @@ class TimetableSearch {
         const validItems = currentSearchItems.filter((item) => {
           const loweredTimetableName = item.timetableName.toLowerCase();
           return loweredTimetableName.indexOf(searchData) !== -1;
-        })
+        });
 
         return validItems;
       }
@@ -30,7 +30,7 @@ class TimetableSearch {
 
   private async searchGroups(searchData: string): Promise<SearchResponse> {
     const request = await axios.get(this.links[TimetableType.GROUP], {
-      params: { group: searchData }
+      params: { group: searchData },
     });
     const groups: Groups = <Groups>request.data;
 
@@ -38,25 +38,34 @@ class TimetableSearch {
       return {
         timetableType: TimetableType.GROUP,
         timetableId: group.dept_id,
-        timetableName: group.name
-      }
-    })
+        timetableName: group.name,
+      };
+    });
+  }
+
+  private sortTeachersByLastName(seacrhData: string, teachers: SearchResponse): SearchResponse {
+    return teachers.sort((curr, next) => {
+      const currentName = curr.timetableName.toLowerCase();
+      const nextName = next.timetableName.toLowerCase();
+      return currentName.indexOf(seacrhData) - nextName.indexOf(seacrhData);
+    });
   }
 
   private async searchTeachers(searchData: string): Promise<SearchResponse> {
     const request = await axios.get(this.links[TimetableType.TEACHER], {
-      params: { teacher: searchData }
+      params: { teacher: searchData },
     });
 
-    const teachers: Teachers = <Teachers>request.data;
-
-    return teachers.map((teacher) => {
+    const rawTeachers: Teachers = <Teachers>request.data;
+    const teachers = rawTeachers.map((teacher) => {
       return {
         timetableType: TimetableType.TEACHER,
         timetableId: teacher.person_id,
-        timetableName: teacher.name
-      }
-    })
+        timetableName: teacher.name,
+      };
+    });
+
+    return this.sortTeachersByLastName(searchData, teachers);
   }
 
   public async get(searchData: string): Promise<SearchResponse> {
