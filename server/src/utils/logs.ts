@@ -1,9 +1,13 @@
 import { existsSync, mkdirSync, appendFileSync } from "fs";
 
 class Logs {
-  private logsDirectory = "./data";
+  private logsDirectory = "./data/logs";
 
   constructor () {
+    if (!existsSync("./data")) {
+      mkdirSync("./data"); // main data folder
+    }
+
     if (!existsSync(this.logsDirectory)) {
       mkdirSync(this.logsDirectory);
     }

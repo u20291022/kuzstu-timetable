@@ -6,7 +6,8 @@ export enum TimetableType {
 interface Discipline {
   date_lesson: string;
   time: string; // we set time
-  type: TimetableType; // we set type
+  timetableType: TimetableType;// we set type
+  type: string; 
   subject: string;
   subgroup: string;
   place: string;

@@ -9,7 +9,7 @@ class TimetableGet {
 
   private setDisciplinesTimesAndType(timetable: TimetableResponse): TimetableResponse {
     return timetable.map((discipline) => {
-      discipline.type = discipline.education_group_name ? TimetableType.GROUP : TimetableType.TEACHER;
+      discipline.timetableType = discipline.education_group_name ? TimetableType.GROUP : TimetableType.TEACHER;
       discipline.time = timeByIndex[Number(discipline.lesson_number) - 1];
 
       return discipline;
