@@ -11,6 +11,7 @@ class TimetableGet {
     return timetable.map((discipline) => {
       discipline.timetableType = discipline.education_group_name ? TimetableType.GROUP : TimetableType.TEACHER;
       discipline.time = timeByIndex[Number(discipline.lesson_number) - 1];
+      discipline.type = discipline.type.toLowerCase().includes("лаб") ? "лаб." : discipline.type
 
       return discipline;
     });
