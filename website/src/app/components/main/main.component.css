@@ -1,0 +1,120 @@
+main {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 20px;
+  margin: 15px;
+
+  min-height: calc(100vh - 180px);
+
+  border-radius: 5px;
+
+  color: var(--text-color);
+}
+
+section {
+  display: flex;
+
+  padding: 15px;
+  margin-bottom: 15px;
+
+  border-radius: 5px;
+  background-color: var(--accent-color);
+
+  box-shadow: 0px 0px 10px 5px var(--shadow-color);
+
+  width: 50%;
+}
+
+#info {
+  text-align: center;
+
+  padding: 10px;
+  margin: 5px;
+
+  width: 50%;
+
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+
+  background-color: var(--bg-color);
+}
+
+@media screen and (max-width: 500px) {
+  section {
+    flex-direction: column;
+
+    width: 80%;
+  }
+
+  #info {
+    width: auto;
+  }
+}
+
+#info p {
+  margin: 0;
+  margin-bottom: 5px;
+
+  font-weight: bold;
+}
+
+#info-text {
+  padding: 5px;
+
+  color: var(--active-color);
+}
+
+#date-input {
+  outline: none !important;
+
+  margin-top: 0px;
+
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+
+  color: var(--active-color);
+  background-color: var(--bg-color);
+
+  font-weight: bold;
+}
+
+table {
+  min-width: 80%;
+
+  padding: 15px;
+  margin: 10px;
+
+  border-radius: 5px;
+  background-color: var(--accent-color);
+
+  box-shadow: 0px 0px 10px 5px var(--shadow-color);
+
+  text-align: center;
+}
+
+td {
+  padding: 10px;
+
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+p {
+  margin: 5px;
+}
+
+svg {
+  position: relative;
+
+  color: var(--active-color);
+}

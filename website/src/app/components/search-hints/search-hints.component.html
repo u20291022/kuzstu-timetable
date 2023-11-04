@@ -1,0 +1,8 @@
+<section id="search-hints">
+  <app-loading *ngIf="searchService.searchItems.length === 0 && searchService.searching"></app-loading>
+  <h1 *ngIf="searchService.searchItems.length === 0 && !searchService.searching">Ничего не найдено!</h1>
+
+  <p *ngFor="let item of searchService.searchItems" (click)="onClick(item)">
+    {{item.timetableName}}
+  </p>
+</section>

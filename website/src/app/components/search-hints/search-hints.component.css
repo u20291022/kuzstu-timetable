@@ -1,0 +1,45 @@
+#search-hints {
+  visibility: hidden;
+
+  position: absolute;
+
+  text-align: left;
+
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  left: 0; 
+  right: 0; 
+
+  margin-left: auto; 
+  margin-right: auto; 
+
+  width: max-content;
+  max-height: 60vh;
+  
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  
+  border-top: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+
+  overflow-y: auto;
+
+  z-index: 3;
+}
+
+#search-hints p {
+  padding: 5px;
+  margin: 5px;
+}
+
+#search-hints p:hover {
+  cursor: pointer;
+
+  background-color: var(--accent-color);
+}

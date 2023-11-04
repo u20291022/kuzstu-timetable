@@ -1,0 +1,46 @@
+#loading-container {
+  text-align: center;
+}
+
+#loading-container div {
+  color: var(--active-color);
+
+  user-select: none;
+}
+
+#loading-1 {
+  display: inline-block;
+
+  font-size: xxx-large;
+  
+  animation: loading-animation 1s infinite alternate;
+  animation-delay: 0s;
+}
+
+#loading-2 {
+  display: inline-block;
+
+  font-size: xxx-large;
+
+  animation: loading-animation 1s infinite alternate;
+  animation-delay: 0.5s;
+}
+
+#loading-3 {
+  display: inline-block;
+ 
+  font-size: xxx-large;
+
+  animation: loading-animation 1s infinite alternate;
+  animation-delay: 1s;
+}
+
+@keyframes loading-animation {
+  0% {
+    opacity: 1;
+  }
+  
+  100% {
+    opacity: 0;
+  }
+}

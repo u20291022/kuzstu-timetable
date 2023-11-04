@@ -1,0 +1,39 @@
+table {
+  width: 100%;
+
+  text-align: center;
+
+  padding: 0;
+  margin: 0;
+}
+
+td {
+  min-width: 33.33%;
+
+  padding: 10px;
+
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+td p {
+  margin: 0;
+  margin-bottom: 2px;
+}
+
+table td:empty {
+  height: 0;
+  border: 0;
+  padding: 0;
+}
+
+svg {
+  position: relative;
+
+  top: 2px;
+
+  color: var(--active-color);
+}

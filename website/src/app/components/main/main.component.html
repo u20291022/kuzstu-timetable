@@ -1,0 +1,37 @@
+<main>
+  <section>
+    <span id="info">
+      <p>Поиск по {{getService.timetableType === "group" ? "группе" : "преподавателю"}}</p>
+      <p id="info-text">{{getService.timetableName}}</p>
+    </span>
+
+    <span id="info">
+      <p>Выбранная дата</p>
+      <input id="date-input" type="date" [value]="currentDate" />
+    </span>
+  </section>
+  
+
+  <table>
+    <tr>
+      <td colspan="2">
+        <svg style="position: relative; top: 2px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg> 
+        {{currentFullDate}}
+      </td>
+    </tr>
+
+    <tr *ngIf="getService.getByDate(currentDate).length === 0 && !getService.loading">
+      <td>
+        <p>На этот день нет пар</p>
+        <p>Или информация пока не доступна</p>
+      </td>
+    </tr>
+
+    <tr *ngFor="let discipline of getService.getByDate(currentDate); let index=index">
+      <timetable-discipline [discipline]="discipline" [prevDiscipline]="index ? getService.getByDate(currentDate)[index-1] : null">
+      </timetable-discipline>
+    </tr>
+  </table>
+
+  <app-loading *ngIf="getService.getByDate(currentDate).length === 0 && getService.loading"></app-loading>
+</main>
