@@ -17,6 +17,8 @@ main {
 section {
   display: flex;
 
+  min-width: max-content;
+ 
   padding: 15px;
   margin-bottom: 15px;
 
@@ -34,6 +36,7 @@ section {
   padding: 10px;
   margin: 5px;
 
+  min-width: max-content;
   width: 50%;
 
   border-radius: 5px;
