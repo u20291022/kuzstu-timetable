@@ -8,10 +8,12 @@ import { SearchItem } from "../models/search-item.model";
 })
 export class TimetableGetService {
   private url = "https://api.u20291022.info/timetable/get";
+
   public disciplines: Discipline[] = [];
-  public timetableType = TimetableType.GROUP; // default
-  public timetableName = "ИТб-222" // default
   public loading = false;
+  
+  public timetableType = TimetableType.GROUP; // by default
+  public timetableName = "ИТб-222" // by default
 
   public async get(searchItem: SearchItem): Promise<Discipline[]> {
     this.timetableType = searchItem.timetableType;

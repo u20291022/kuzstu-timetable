@@ -7,10 +7,12 @@ class TimetableGet {
     [TimetableType.TEACHER]: "https://portal.kuzstu.ru/api/teacher_schedule?teacher_id=",
   };
 
-  private setDisciplinesTimesAndType(timetable: TimetableResponse): TimetableResponse {
+  private setDisciplinesTimeAndType(timetable: TimetableResponse): TimetableResponse {
     return timetable.map((discipline) => {
       discipline.timetableType = discipline.education_group_name ? TimetableType.GROUP : TimetableType.TEACHER;
       discipline.time = timeByIndex[Number(discipline.lesson_number) - 1];
+      
+      // fix for original API (it has two variants: Лаб and лаб.)
       discipline.type = discipline.type.toLowerCase().includes("лаб") ? "лаб." : discipline.type
 
       return discipline;
@@ -23,7 +25,7 @@ class TimetableGet {
     const request = await axios.get(apiUrl + timetableId);
     const rawTimetableResponse: TimetableResponse = request.data;
 
-    const timetableResponse = this.setDisciplinesTimesAndType(rawTimetableResponse);
+    const timetableResponse = this.setDisciplinesTimeAndType(rawTimetableResponse);
     return timetableResponse.filter((data) => data.date_lesson);
   }
 }
