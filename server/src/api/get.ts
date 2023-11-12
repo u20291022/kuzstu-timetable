@@ -5,11 +5,12 @@ class TimetableGet {
   private links = {
     [TimetableType.GROUP]: "https://portal.kuzstu.ru/api/student_schedule?group_id=",
     [TimetableType.TEACHER]: "https://portal.kuzstu.ru/api/teacher_schedule?teacher_id=",
+    [TimetableType.CLASSROOM]: "https://portal.kuzstu.ru/api/classroom_schedule?classroom="
   };
 
-  private setDisciplinesTimeAndType(timetable: TimetableResponse): TimetableResponse {
+  private setDisciplinesTimeAndType(timetable: TimetableResponse, timetableType: TimetableType): TimetableResponse {
     return timetable.map((discipline) => {
-      discipline.timetableType = discipline.education_group_name ? TimetableType.GROUP : TimetableType.TEACHER;
+      discipline.timetableType = timetableType;
       discipline.time = timeByIndex[Number(discipline.lesson_number) - 1];
       
       // fix for original API (it has two variants: Лаб and лаб.)
@@ -25,7 +26,7 @@ class TimetableGet {
     const request = await axios.get(apiUrl + timetableId);
     const rawTimetableResponse: TimetableResponse = request.data;
 
-    const timetableResponse = this.setDisciplinesTimeAndType(rawTimetableResponse);
+    const timetableResponse = this.setDisciplinesTimeAndType(rawTimetableResponse, timetableType);
     return timetableResponse.filter((data) => data.date_lesson);
   }
 }

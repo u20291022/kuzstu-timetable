@@ -14,6 +14,13 @@ interface Teacher {
 
 export type Teachers = Teacher[];
 
+interface Classroom {
+  auditorium_id: string;
+  name: string;
+}
+
+export type Classrooms = Classroom[];
+
 interface SearchItem {
   timetableType: TimetableType,
   timetableId: string,

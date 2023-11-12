@@ -1,11 +1,12 @@
 import axios from "axios";
-import { Groups, PreviousSearches, SearchResponse, Teachers } from "../types/search.types";
+import { Classrooms, Groups, PreviousSearches, SearchResponse, Teachers } from "../types/search.types";
 import { TimetableType } from "../types/get.types";
 
 class TimetableSearch {
   private links = {
     [TimetableType.GROUP]: "https://portal.kuzstu.ru/api/group",
     [TimetableType.TEACHER]: "https://portal.kuzstu.ru/api/teachers",
+    [TimetableType.CLASSROOM]: "https://portal.kuzstu.ru/api/classrooms",
   };
 
   private previousSearches: PreviousSearches = {};
@@ -68,8 +69,24 @@ class TimetableSearch {
     return this.sortTeachersByLastName(searchData, teachers);
   }
 
+  private async searchClassrooms(searchData: string): Promise<SearchResponse> {
+    const request = await axios.get(this.links[TimetableType.CLASSROOM], {
+      params: { classroom: searchData }
+    });
+    const classrooms: Classrooms = <Classrooms>request.data;
+
+    return classrooms.map((classroom) => {
+      return {
+        timetableType: TimetableType.CLASSROOM,
+        timetableId: classroom.name, // cuz KuzSTU API uses classroom name as id o_O
+        timetableName: classroom.name,
+      };
+    });
+  }
+
   public async get(searchData: string): Promise<SearchResponse> {
     searchData = searchData.toLowerCase();
+    
     const searchResultFromPreviousSearches = this.searchInPreviousSearches(searchData);
 
     if (searchResultFromPreviousSearches) {
@@ -78,7 +95,9 @@ class TimetableSearch {
 
     const groups = await this.searchGroups(searchData);
     const teachers = await this.searchTeachers(searchData);
-    const searchResponse = [...groups, ...teachers];
+    const classrooms = await this.searchClassrooms(searchData);
+
+    const searchResponse = [...groups, ...teachers, ...classrooms];
     const filteredSearchResponse = searchResponse.filter((item) => item.timetableName);
 
     this.previousSearches[searchData] = filteredSearchResponse;
