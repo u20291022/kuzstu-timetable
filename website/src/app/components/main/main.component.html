@@ -1,7 +1,10 @@
 <main>
   <section>
     <span id="info">
-      <p>Поиск по {{getService.timetableType === "group" ? "группе" : "преподавателю"}}</p>
+      <p>Поиск по {{
+        getService.timetableType === "group" ? "группе" :
+        (getService.timetableType === "teacher" ? "преподавателю" : "аудитории")
+      }}</p>
       <p id="info-text">{{getService.timetableName}}</p>
     </span>
 

@@ -20,6 +20,11 @@ export class TimetableGetService {
     this.timetableName = searchItem.timetableName;
     this.loading = true;
 
+    // bad method to fix kuzstu bad api method
+    if (this.timetableType === TimetableType.CLASSROOM) {
+      searchItem.timetableId = searchItem.timetableId.slice(0, 5) // "4 лекционная аудитория" -> "4 лек"
+    }
+
     const request = await axios.get(this.url, {
       params: {
         type: searchItem.timetableType,

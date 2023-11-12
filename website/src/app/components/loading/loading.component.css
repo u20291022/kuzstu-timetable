@@ -11,7 +11,7 @@
 #loading-1 {
   display: inline-block;
 
-  font-size: xxx-large;
+  font-size: 64px;
   
   animation: loading-animation 1s infinite alternate;
   animation-delay: 0s;
@@ -20,7 +20,7 @@
 #loading-2 {
   display: inline-block;
 
-  font-size: xxx-large;
+  font-size: 64px;
 
   animation: loading-animation 1s infinite alternate;
   animation-delay: 0.5s;
@@ -29,7 +29,7 @@
 #loading-3 {
   display: inline-block;
  
-  font-size: xxx-large;
+  font-size: 64px;
 
   animation: loading-animation 1s infinite alternate;
   animation-delay: 1s;

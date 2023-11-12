@@ -17,10 +17,9 @@ export class SearchHintsComponent implements OnInit {
     const searchInput = <HTMLInputElement>document.getElementById("search");
     const searchSection = <HTMLElement>document.getElementById("search-section");
     
-    searchHints.style.visibility = "hidden";
-    
     searchInput.value = "";
-    searchInput.placeholder = searchItem.timetableName;
+    
+    searchHints.style.visibility = "hidden";
 
     searchSection.style.borderBottomLeftRadius = "5px";
     searchSection.style.borderBottomRightRadius = "5px";
