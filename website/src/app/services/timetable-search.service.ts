@@ -6,7 +6,7 @@ import axios from "axios";
   providedIn: "root",
 })
 export class TimetableSearchService {
-  private url = "https://api.u20291022.info/timetable/search";
+  private url = "https://localhost/timetable/search";
 
   public searchItems: SearchItem[] = [];
   public searching = false;

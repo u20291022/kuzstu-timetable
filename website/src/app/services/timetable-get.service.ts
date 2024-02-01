@@ -7,7 +7,7 @@ import { SearchItem } from "../models/search-item.model";
   providedIn: "root",
 })
 export class TimetableGetService {
-  private url = "https://api.u20291022.info/timetable/get";
+  private url = "https://localhost/timetable/get";
 
   public disciplines: Discipline[] = [];
   public loading = false;
